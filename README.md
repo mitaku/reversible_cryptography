@@ -1,8 +1,6 @@
 # ReversibleCryptography
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/reversible_cryptography`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Easy-to-use reversible encryption solutions.
 
 ## Installation
 
@@ -22,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+encrypted_message = ReversibleCryptography::Message.encrypt("target_message", "password")
+# => "md5:388eeae24576572f946e9043a2118b2d:salt:161-225-182-109-143-90-1-28:aes-256-cfb:DHY6DF3+iFzH36FMbeI="
+ReversibleCryptography::Message.encrypt(encrypted_message, "password") == "target_message"
+# => true
+```
 
 ## Development
 
@@ -32,7 +35,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/reversible_cryptography/fork )
+1. Fork it ( https://github.com/mitaku/reversible_cryptography/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
