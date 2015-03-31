@@ -13,7 +13,7 @@ module ReversibleCryptography
       puts ReversibleCryptography::Message.encrypt(plain_text, password)
     end
 
-    desc "encrypt [TEXT]", "Decrypt text"
+    desc "decrypt [TEXT]", "Decrypt text"
     option :password, type: :string, aliases: [:p]
     def decrypt(encrypted_text=nil)
       encrypted_text ||= ask("Input text:")
