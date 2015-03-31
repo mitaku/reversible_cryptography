@@ -27,6 +27,34 @@ ReversibleCryptography::Message.encrypt(encrypted_message, "password") == "targe
 # => true
 ```
 
+### CLI
+Add `reversible_cryptography` command
+
+```shell
+$ reversible_cryptography
+
+Commands:
+  reversible_cryptography decrypt [TEXT]  # Decrypt text
+  reversible_cryptography encrypt [TEXT]  # Encrypt text
+  reversible_cryptography help [COMMAND]  # Describe available commands or one specific command
+```
+
+#### Encrypt sample
+
+```shell
+$ reversible_cryptography encrypt message
+Input password:
+md5:78e731027d8fd50ed642340b7c9a63b3:salt:252-235-72-88-180-7-195-229:aes-256-cfb:VH2JxqUU9Q==
+```
+
+#### Decrypt sample
+
+```shell
+reversible_cryptography decrypt md5:78e731027d8fd50ed642340b7c9a63b3:salt:252-235-72-88-180-7-195-229:aes-256-cfb:VH2JxqUU9Q==
+Input password:
+message
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
