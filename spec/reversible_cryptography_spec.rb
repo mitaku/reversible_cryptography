@@ -5,6 +5,20 @@ describe ReversibleCryptography do
     expect(ReversibleCryptography::VERSION).not_to be nil
   end
 
+  shared_examples "raises error on empty input" do
+    context "When string is empty" do
+      let(:str) { nil }
+      let(:password) { "password" }
+      it { expect{ subject }.to raise_error(ReversibleCryptography::EmptyInputString) }
+    end
+
+    context "When password is empty" do
+      let(:str) { "string" }
+      let(:password) { nil }
+      it { expect{ subject }.to raise_error(ReversibleCryptography::EmptyPassword) }
+    end
+  end
+
   describe ReversibleCryptography::Message do
     describe ".encrypt" do
       subject { described_class.encrypt(str, password) }
@@ -13,6 +27,8 @@ describe ReversibleCryptography do
       let(:password) { "password" }
 
       it { should match(/^md5:([0-9a-f]+):salt:([0-9-]+):aes-256-cfb:(.+)/) }
+
+      it_behaves_like "raises error on empty input"
     end
 
     describe ".decrypt" do
@@ -27,8 +43,17 @@ describe ReversibleCryptography do
 
       context "invald" do
         let(:password) { "password" }
-        it { expect { subject }.to raise_error }
+        it { expect { subject }.to raise_error(ReversibleCryptography::InvalidPassword) }
       end
+
+      context "When input string is invalid format" do
+        let(:str) { "deadbeef" }
+        let(:password) { "hogefuga" }
+
+        it { expect { subject }.to raise_error(ReversibleCryptography::InvalidFormat) }
+      end
+
+      it_behaves_like "raises error on empty input"
     end
   end
 end
