@@ -8,6 +8,9 @@ module ReversibleCryptography
 
     class << self
       def encrypt(str, password)
+        raise EmptyInputString if blank?(str)
+        raise EmptyPassword if blank?(password)
+
         enc = OpenSSL::Cipher::AES256.new(MODE)
         enc.encrypt
 
@@ -23,9 +26,16 @@ module ReversibleCryptography
       end
 
       def decrypt(str, password)
+        raise EmptyInputString if blank?(str)
+        raise EmptyPassword if blank?(password)
+
         key = str.sub(/^md5:(.+):salt:(.+):#{PREFIX}:/, '')
         md5 = $1
         salt_string = $2
+
+        if [key, md5, salt_string].any? { |s| blank?(s) }
+          raise InvalidFormat
+        end
 
         salt = convert_salt(salt_string)
 
@@ -37,7 +47,7 @@ module ReversibleCryptography
         if OpenSSL::Digest.hexdigest("MD5", result) == md5
           result
         else
-          raise StandardError.new("Invalid Password")
+          raise InvalidPassword
         end
       end
 
@@ -55,6 +65,10 @@ module ReversibleCryptography
 
       def generate_salt_string(salt)
         salt.unpack("C*").join("-")
+      end
+
+      def blank?(str)
+        str.nil? || str.empty?
       end
     end
   end
