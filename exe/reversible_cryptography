@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "bundler/setup"
+
 require 'reversible_cryptography/cli'
 
 ReversibleCryptography::CLI.start(ARGV)
