@@ -23,7 +23,7 @@ Or install it yourself as:
 ```ruby
 encrypted_message = ReversibleCryptography::Message.encrypt("target_message", "password")
 # => "md5:388eeae24576572f946e9043a2118b2d:salt:161-225-182-109-143-90-1-28:aes-256-cfb:DHY6DF3+iFzH36FMbeI="
-ReversibleCryptography::Message.encrypt(encrypted_message, "password") == "target_message"
+ReversibleCryptography::Message.decrypt(encrypted_message, "password") == "target_message"
 # => true
 ```
 
