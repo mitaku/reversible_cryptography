@@ -34,8 +34,8 @@ Add `reversible_cryptography` command
 $ reversible_cryptography
 
 Commands:
-  reversible_cryptography decrypt [TEXT]  # Decrypt text
-  reversible_cryptography encrypt [TEXT]  # Encrypt text
+  reversible_cryptography decrypt [TEXT]  # Decrypt text or file
+  reversible_cryptography encrypt [TEXT]  # Encrypt text or file
   reversible_cryptography help [COMMAND]  # Describe available commands or one specific command
 ```
 
@@ -47,12 +47,32 @@ Input password:
 md5:78e731027d8fd50ed642340b7c9a63b3:salt:252-235-72-88-180-7-195-229:aes-256-cfb:VH2JxqUU9Q==
 ```
 
+```shell
+cat original.txt
+this is secret!
+
+reversible_cryptography encrypt --password=pass --src-file=original.txt --dst-file=encrypted.txt
+
+cat encrypted.txt
+md5:f5b013aca1b774be3d3b5f09f76e6cc8:salt:228-129-190-248-134-146-102-97:aes-256-cfb:u+lhtAdW6Re8br0qePqzig==
+```
+
 #### Decrypt sample
 
 ```shell
 reversible_cryptography decrypt md5:78e731027d8fd50ed642340b7c9a63b3:salt:252-235-72-88-180-7-195-229:aes-256-cfb:VH2JxqUU9Q==
 Input password:
 message
+```
+
+```shell
+cat encrypted.txt
+md5:f5b013aca1b774be3d3b5f09f76e6cc8:salt:228-129-190-248-134-146-102-97:aes-256-cfb:u+lhtAdW6Re8br0qePqzig==
+
+reversible_cryptography decrypt --password=pass --src-file=encrypted.txt --dst-file=decrypted.txt
+
+cat decrypted.txt
+this is secret!
 ```
 
 ## Development
