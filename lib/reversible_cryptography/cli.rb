@@ -42,5 +42,27 @@ module ReversibleCryptography
         puts plain_text
       end
     end
+
+    desc "edit FILE", "Edit encrypted file"
+    option :password, type: :string, aliases: [:p]
+    option :editor,   type: :string, aliases: [:e]
+    def edit(encrypted_file)
+      password = options[:password]
+      password ||= ask("Input password:", echo: false).tap { puts }
+      editor_command = options[:editor] || ENV['EDITOR']
+
+      Tempfile.open('decrypted_text') do |fp|
+        decrypted_text = ReversibleCryptography::Message.decrypt(File.read(encrypted_file), password)
+        fp.write(decrypted_text)
+        fp.close
+
+        system("#{editor_command} #{fp.path}")
+        encrypted_text = ReversibleCryptography::Message.encrypt(File.read(fp.path), password)
+
+        File.open(encrypted_file, "wb") do |f|
+          f.write(encrypted_text)
+        end
+      end
+    end
   end
 end
