@@ -35,6 +35,7 @@ $ reversible_cryptography
 
 Commands:
   reversible_cryptography decrypt [TEXT]  # Decrypt text or file
+  reversible_cryptography edit FILE       # Edit encrypted file
   reversible_cryptography encrypt [TEXT]  # Encrypt text or file
   reversible_cryptography help [COMMAND]  # Describe available commands or one specific command
 ```
@@ -73,6 +74,16 @@ reversible_cryptography decrypt --password=pass --src-file=encrypted.txt --dst-f
 
 cat decrypted.txt
 this is secret!
+```
+
+#### Edit sample
+```shell
+cat encrypted.txt
+md5:f5b013aca1b774be3d3b5f09f76e6cc8:salt:228-129-190-248-134-146-102-97:aes-256-cfb:u+lhtAdW6Re8br0qePqzig==
+
+reversible_cryptography edit encrypted.txt --password=pass --editor=vim
+
+# modify encrypted.txt
 ```
 
 ## Development
